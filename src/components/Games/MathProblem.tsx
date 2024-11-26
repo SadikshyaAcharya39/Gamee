@@ -12,13 +12,16 @@ export default function MathProblem() {
     const [userId, setUserId] = useState('');
     const [loading, setLoading] = useState(true);
 
+    // Fetching data from API
     const fetchData = async () => {
         try {
             const meResponse = await axios.get('/api/v1/me');
             const userId = meResponse.data.user.id;
             setUserId(userId);
 
-            const response = await fetch('https://marcconrad.com/uob/tomato/api.php', { method: 'GET' });
+    // Fetching the question and solution image from the Banana API
+
+            const response = await fetch('https://marcconrad.com/uob/banana/api.php', { method: 'GET' });
             const data = await response.json();
 
             if (!response.ok || !data) {
@@ -28,13 +31,16 @@ export default function MathProblem() {
             const { question, solution } = data;
             setImageSrc(question);
             setApiAnswer(solution);
+        
         } catch (error) {
             toast.error('Login Expires');
         } finally {
-            setLoading(false);
+            setLoading(false);   // Stops loading once data is fetched
         }
     };
 
+
+    // Increment the score for the user when they answer correctly
     const incrementScore = async () => {
         try {
             const response = await axios.put('/api/v1/scores', { userId });
@@ -51,9 +57,10 @@ export default function MathProblem() {
     };
 
     useEffect(() => {
-        fetchData();
+        fetchData(); 
     }, []);
 
+     // Handling user's answer
     const handleUserAnswer = async () => {
         const normalizedApiAnswer = apiAnswer?.toString().toLowerCase();
         const normalizedUserAnswer = userAnswer.toLowerCase();
@@ -63,24 +70,25 @@ export default function MathProblem() {
         if (isCorrect) {
             toast.success('Correct answer!');
             await incrementScore();
-            fetchData();
+            fetchData();  // Fetch new question after answering correctly
         } else {
             toast.error('Incorrect answer. Try again.');
         }
 
-        setUserAnswer('');
+        setUserAnswer('');  // Clear the input field
     };
 
     return (
         <div className='flex flex-col flex-wrap items-center gap-5 mt-6'>
-            <h1 className='text-2xl font-bold'>Tomato Quiz</h1>
+            <h1 className='text-2xl font-bold'>Banana Game</h1>
             <h2>Fetch Data from API</h2>
 
             {loading ? (
                 <p>Loading...</p>
             ) : (
                 <>
-                    {imageSrc && <img src={imageSrc} alt="Tomato" className="text-center w-1/2" />}
+                {/* Display the fetched image */}
+                    {imageSrc && <img src={imageSrc} alt="Banana Question" className="text-center w-1/2" />}
                     <div className="flex flex-wrap gap-1">
                         <label>Your Answer:</label>
                         <input
@@ -90,7 +98,8 @@ export default function MathProblem() {
                             onChange={(e) => setUserAnswer(e.target.value)}
                         />
                     </div>
-                    <button className="flex gap-x-1 outline outline-offset-2 outline-1 cursor-pointer p-1 text-md" onClick={handleUserAnswer}>
+                    <button 
+                    className="flex gap-x-1 outline outline-offset-2 outline-1 cursor-pointer p-1 text-md" onClick={handleUserAnswer}>
                         Submit Answer
                     </button>
                 </>
