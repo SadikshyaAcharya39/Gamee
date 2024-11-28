@@ -105,7 +105,7 @@ const GameRules: React.FC = () => {
                     <span className="text-5xl font-semibold text-center text-white mb-4">
                         Be our top scorer
                     </span>
-                    <h1 className="text-4xl font-bold text-center text-black mb-6">
+                    <h1 className="text-4xl font-bold text-center text-black mb-10">
                         Game Rules
                     </h1>
                     <ul className="list-inside list-decimal text-lg space-y-3 text-black">

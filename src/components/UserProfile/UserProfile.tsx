@@ -1,4 +1,3 @@
-// components/UserProfile.tsx
 "use client";
 import NavBar from "@/components/NavBar";
 import axios from "axios";
@@ -51,16 +50,16 @@ const UserProfile: React.FC<{ user: User }> = ({ user }) => {
   };
 
   return (
-    <div>
+    <div className="bg-orange-500 min-h-screen">
       <NavBar />
       <div className="container mx-auto my-8 text-center flex flex-col gap-7 items-center">
-        <h1 className="underline text-2xl">User Profile</h1>
-        <p>ID: {userData?.id}</p>
-        <p>Username: {userData?.username}</p>
-        <p>Email: {userData?.email}</p>
+        <h1 className="underline text-2xl text-white">User Profile</h1>
+        <p className="text-white">ID: {userData?.id}</p>
+        <p className="text-white">Username: {userData?.username}</p>
+        <p className="text-white">Email: {userData?.email}</p>
         <button
           onClick={logOut}
-          className="outline outline-offset-2 outline-1 p-2 cursor-pointer w-fit"
+          className="outline outline-offset-2 outline-1 p-2 cursor-pointer w-fit bg-white text-orange-500 hover:bg-gray-200"
         >
           Log Out
         </button>
